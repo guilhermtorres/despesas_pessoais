@@ -6,7 +6,20 @@ class DespesasApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: MinhaPaginaInicial(),
-      theme: ThemeData(),
+      theme: ThemeData(
+        primarySwatch: Colors.orange,
+        accentColor: Colors.deepPurpleAccent,
+        fontFamily: 'OpenSans',
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                  fontFamily: 'Quicksand',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+        ),
+      ),
     );
   }
 }
