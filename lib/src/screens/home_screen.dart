@@ -3,6 +3,7 @@ import 'package:despesas_pessoais/src/models/transacoes_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import '../components/transacao_form_components.dart';
+import '../components/grafico_components.dart';
 
 class MinhaPaginaInicial extends StatefulWidget {
   @override
@@ -15,15 +16,22 @@ class _MinhaPaginaInicialState extends State<MinhaPaginaInicial> {
       id: 't1',
       title: 'Novo tênis de corrida',
       value: 310.76,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(Duration(days: 3)),
     ),
     Transacao(
       id: 't2',
       title: 'Conta de luz',
       value: 211.30,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(Duration(days: 4)),
     ),
   ];
+  List<Transacao> get _recentTransactions {
+    return _transacoes.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(
+        Duration(days: 7),
+      ));
+    }).toList();
+  }
 
   _addTransacao(String title, double value) {
     final novaTransacao = Transacao(
@@ -46,13 +54,7 @@ class _MinhaPaginaInicialState extends State<MinhaPaginaInicial> {
         });
   }
 
-  Widget chartWidget() => Container(
-        child: Card(
-          color: Theme.of(context).primaryColor,
-          child: Text('Gráfico'),
-          elevation: 5,
-        ),
-      );
+  Widget chartWidget() => Grafico(_recentTransactions);
 
   @override
   Widget build(BuildContext context) {
