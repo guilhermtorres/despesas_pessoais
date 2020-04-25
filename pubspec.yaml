@@ -1,5 +1,5 @@
 name: despesas_pessoais
-description: A new Flutter project.
+description: Um Aplicativo de despesas pessoais.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -28,6 +28,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.7.5
+    
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icons/icons8-money-bag-64.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -35,6 +41,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

@@ -15,13 +15,16 @@ class GraficoBarra extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        FittedBox(
-          child: Text('R\$\n${value.toStringAsFixed(2)}   ',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-              )),
+        Container(
+          height: 20,
+          child: FittedBox(
+            child: Text('R\$\n${value.toStringAsFixed(2)}   ',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
         ),
         SizedBox(height: 5),
         Container(

@@ -11,20 +11,8 @@ class MinhaPaginaInicial extends StatefulWidget {
 }
 
 class _MinhaPaginaInicialState extends State<MinhaPaginaInicial> {
-  final List<Transacao> _transacoes = [
-    Transacao(
-      id: 't1',
-      title: 'Novo tênis de corrida',
-      value: 310.76,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transacao(
-      id: 't2',
-      title: 'Conta de luz',
-      value: 211.30,
-      date: DateTime.now().subtract(Duration(days: 4)),
-    ),
-  ];
+  final List<Transacao> _transacoes = [];
+
   List<Transacao> get _recentTransactions {
     return _transacoes.where((tr) {
       return tr.date.isAfter(DateTime.now().subtract(
@@ -33,16 +21,22 @@ class _MinhaPaginaInicialState extends State<MinhaPaginaInicial> {
     }).toList();
   }
 
-  _addTransacao(String title, double value) {
+  _addTransacao(String title, double value, DateTime date) {
     final novaTransacao = Transacao(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
     Navigator.pop(context);
     setState(() {
       _transacoes.add(novaTransacao);
+    });
+  }
+
+  _deleteTransactions(String id) {
+    setState(() {
+      _transacoes.removeWhere((tr) => tr.id == id);
     });
   }
 
@@ -66,6 +60,7 @@ class _MinhaPaginaInicialState extends State<MinhaPaginaInicial> {
           IconButton(
             icon: Icon(
               Icons.add,
+              color: Colors.white,
             ),
             onPressed: () => _openTransacaoFormModal(context),
           )
@@ -76,7 +71,7 @@ class _MinhaPaginaInicialState extends State<MinhaPaginaInicial> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             chartWidget(),
-            TransacaoList(_transacoes),
+            TransacaoList(_transacoes, _deleteTransactions),
           ],
         ),
       ),

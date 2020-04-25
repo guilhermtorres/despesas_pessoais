@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class TransacaoList extends StatelessWidget {
   final List<Transacao> transacoes;
+  final void Function(String) onRemove;
 
-  TransacaoList(this.transacoes);
+  TransacaoList(this.transacoes, this.onRemove);
 
   @override
   Widget build(BuildContext context) {
@@ -15,15 +16,15 @@ class TransacaoList extends StatelessWidget {
           ? Column(
               children: <Widget>[
                 SizedBox(
-                  height: 20,
+                  height: 60,
                 ),
                 Text(
-                  'Ops! Nenhuma  Transação Cadastrada!',
+                  'Ops! Nenhuma Transação Cadastrada!',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.title,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
                 Container(
                   height: 200,
@@ -39,49 +40,36 @@ class TransacaoList extends StatelessWidget {
               itemBuilder: (ctx, index) {
                 final tr = transacoes[index];
                 return Card(
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          'R\$ ${tr.value.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Theme.of(context).primaryColor,
+                  elevation: 6,
+                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 5),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: FittedBox(
+                          child: Text(
+                            'R\$ ${tr.value}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            tr.title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Text(
-                            ConversaoData().dateBrWithMonth(tr.date),
-                            style: TextStyle(
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                    ),
+                    title: Text(
+                      tr.title,
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                    subtitle: Text(
+                      ConversaoData().dateBrWithMonth(tr.date),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => onRemove(tr.id),
+                    ),
                   ),
                 );
               },
