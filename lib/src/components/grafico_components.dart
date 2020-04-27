@@ -8,7 +8,7 @@ class Grafico extends StatelessWidget {
 
   Grafico(this.recentTransactions);
 
-  List<Map<String, Object>> get groupedTransactions {
+  List<Map<String, dynamic>> get groupedTransactions {
     return List.generate(7, (index) {
       final weekDay = DateTime.now().subtract(
         Duration(days: index),
@@ -20,12 +20,10 @@ class Grafico extends StatelessWidget {
         bool sameMonth = recentTransactions[i].date.month == weekDay.month;
         bool sameYear = recentTransactions[i].date.year == weekDay.year;
 
-        if (sameDay && sameMonth && sameYear) {
-          totalSum += recentTransactions[i].value;
-        }
+        if (sameDay && sameMonth && sameYear) totalSum += recentTransactions[i].value;
       }
       return {
-        'day': DateFormat.E().format(weekDay)[0],
+        'day': DateFormat.E('pt_Br').format(weekDay)[0].toUpperCase(),
         'value': totalSum,
       };
     }).reversed.toList();
@@ -47,12 +45,17 @@ class Grafico extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: groupedTransactions.map((tr) {
+            List list = groupedTransactions.map((item) => item['value']).toList();
+
+            list.sort((a, b) => a.compareTo(b));
+
             return Flexible(
               fit: FlexFit.tight,
               child: GraficoBarra(
                 label: tr['day'],
                 value: tr['value'],
-                percentage: _weekTotalValue == 0 ? 0 : (tr['value'] as double) / _weekTotalValue,
+                percentage: _weekTotalValue == 0 ? 0 : list.last == tr['value'] ? 1 : ((double.parse(tr['value'].toString())) / list.last),
+                big: list.length == 0 ? false : list.last == tr['value'],
               ),
             );
           }).toList(),

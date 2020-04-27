@@ -1,10 +1,13 @@
 import 'package:despesas_pessoais/src/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class DespesasApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate],
+        supportedLocales: [const Locale('pt', 'BR')],
         home: MinhaPaginaInicial(),
         theme: ThemeData(
           primarySwatch: Colors.orange,
